@@ -29,6 +29,8 @@ public class MoneyEdit extends AppCompatActivity {
     EditText et_memo;
     String getprice = null;
     String getmemo = null;
+    String price = null;
+    String memo = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,11 +83,9 @@ public class MoneyEdit extends AppCompatActivity {
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
-                /*
+                //finish();
                 price = et_price.getText().toString();
                 memo = et_memo.getText().toString();
-                System.out.println("after edit : " + price + ", " + memo);
                 dbHelper.update(position, getyear, getmonth, getday, price, memo);
                 Intent intent_after = new Intent(MoneyEdit.this, MoneyTab.class);
                 intent_after.putExtra("after_year", getyear);
@@ -93,7 +93,7 @@ public class MoneyEdit extends AppCompatActivity {
                 intent_after.putExtra("after_day", getday);
                 startActivity(intent_after);
                 Toast toastView = Toast.makeText(getApplicationContext(), "수정되었습니다" , Toast.LENGTH_LONG);
-                toastView.show();*/
+                toastView.show();
             }
         });
 

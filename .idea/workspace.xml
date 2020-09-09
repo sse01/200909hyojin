@@ -6,7 +6,12 @@
     </shared>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2ebaf421-73a3-4f25-b09d-abccf05312c0" name="Default Changelist" comment="" />
+    <list default="true" id="2ebaf421-73a3-4f25-b09d-abccf05312c0" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/modules/app/app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/app/app.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/techtown/puppydiary/accountmenu/MoneyDBHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/techtown/puppydiary/accountmenu/MoneyDBHelper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/techtown/puppydiary/accountmenu/MoneyEdit.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/techtown/puppydiary/accountmenu/MoneyEdit.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -129,6 +134,22 @@
       <screen x="0" y="23" width="1440" height="804" />
     </state>
     <state x="582" y="166" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.23.1440.804@0.23.1440.804" timestamp="1599579943164" />
+    <state width="931" height="183" key="GridCell.Tab.0.bottom" timestamp="1599642387171">
+      <screen x="0" y="23" width="1440" height="801" />
+    </state>
+    <state width="931" height="183" key="GridCell.Tab.0.bottom/0.23.1440.801@0.23.1440.801" timestamp="1599642387171" />
+    <state width="931" height="183" key="GridCell.Tab.0.center" timestamp="1599642387171">
+      <screen x="0" y="23" width="1440" height="801" />
+    </state>
+    <state width="931" height="183" key="GridCell.Tab.0.center/0.23.1440.801@0.23.1440.801" timestamp="1599642387171" />
+    <state width="931" height="183" key="GridCell.Tab.0.left" timestamp="1599642387170">
+      <screen x="0" y="23" width="1440" height="801" />
+    </state>
+    <state width="931" height="183" key="GridCell.Tab.0.left/0.23.1440.801@0.23.1440.801" timestamp="1599642387170" />
+    <state width="931" height="183" key="GridCell.Tab.0.right" timestamp="1599642387171">
+      <screen x="0" y="23" width="1440" height="801" />
+    </state>
+    <state width="931" height="183" key="GridCell.Tab.0.right/0.23.1440.801@0.23.1440.801" timestamp="1599642387171" />
     <state x="640" y="197" key="chooseDestDirectoryDialog" timestamp="1599579963609">
       <screen x="0" y="23" width="1440" height="804" />
     </state>

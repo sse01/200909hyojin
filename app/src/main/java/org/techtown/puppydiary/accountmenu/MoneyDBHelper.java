@@ -45,17 +45,17 @@ public class MoneyDBHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    /*
+
     public void update(int pos, int year, int month, int day, String price, String memo){
         // 읽고 쓰기가 가능하게 DB 열기
         SQLiteDatabase db = getWritableDatabase();
         System.out.println("IN DB : " + price + ", " + memo);
 
         //db.execSQL("DELETE FROM mt4 WHERE pos = " + pos + " and year = " + year + " and month = " + month + " and day = " + day + ";");
-        db.execSQL("INSERT OR REPLACE INTO mt4(pos, year, month, day, price, memo) VALUES(" + pos + ", " + year + ", " + month + ", " + day + ", '" + price + "', '" + memo + "');");
-        //db.execSQL("UPDATE mt4 SET price = '" + price + "' and memo = '" + memo + "' WHERE pos = " + pos + " and year = " + year + " and month = " + month + " and day = " + day + ";");
+        //db.execSQL("INSERT OR REPLACE INTO mt4(pos, year, month, day, price, memo) VALUES(" + pos + ", " + year + ", " + month + ", " + day + ", '" + price + "', '" + memo + "');");
+        db.execSQL("UPDATE mt4 SET price = '" + price + "' and memo = '" + memo + "' WHERE pos = " + pos + " and year = " + year + " and month = " + month + " and day = " + day + ";");
         db.close();
-    }*/
+    }
 
     public void delete(int pos, int year, int month, int day) {
 
