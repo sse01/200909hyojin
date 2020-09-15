@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,8 +15,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import org.techtown.puppydiary.R;
 
-import java.util.Calendar;
-
 //moneyTab item click 시 나오는 수정 삭제 화면
 public class MoneyEdit extends AppCompatActivity {
 
@@ -25,11 +22,11 @@ public class MoneyEdit extends AppCompatActivity {
     ActionBar actionBar;
 
     TextView tv_date;
-    EditText et_price;
-    EditText et_memo;
-    String getprice = null;
+    TextView tv_price;
+    TextView tv_memo;
+    int getprice = 0;
     String getmemo = null;
-    String price = null;
+    int price = 0;
     String memo = null;
 
     @Override
@@ -46,7 +43,7 @@ public class MoneyEdit extends AppCompatActivity {
         actionBar.setDisplayShowHomeEnabled(true) ;
 
 
-        final MoneyDBHelper dbHelper = new MoneyDBHelper(getApplicationContext(), "mt4.db", null, 1);
+        final MoneyDBHelper dbHelper = new MoneyDBHelper(getApplicationContext(), "mt6.db", null, 1);
 
         final Intent intent = new Intent(getIntent());
         final int position = intent.getIntExtra("position", 0);
@@ -60,40 +57,38 @@ public class MoneyEdit extends AppCompatActivity {
         final String getdate = getyear + "/" + getmonth + "/" + getday;
 
 
-        et_price = findViewById(R.id.price_data);
-        et_price.setText(getprice);
+        tv_price = findViewById(R.id.price_data);
+        tv_price.setText(Integer.toString(getprice));
 
-        et_memo = findViewById(R.id.memo_data);
-        et_memo.setText(getmemo);
+        tv_memo = findViewById(R.id.memo_data);
+        tv_memo.setText(getmemo);
 
         // 날짜 고정 : 수정 불가
         tv_date = findViewById(R.id.date_data);
         tv_date.setText(getdate);
 
-        Button close = findViewById(R.id.close);
-        close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
 
-
-        Button edit = findViewById(R.id.edit);
-        edit.setOnClickListener(new View.OnClickListener() {
+        Button cancel = findViewById(R.id.cancel);
+        cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //finish();
-                price = et_price.getText().toString();
+                finish();
+                /*
+                price = Integer.parseInt(et_price.getText().toString());
+                //price = et_price.getText().toString();
                 memo = et_memo.getText().toString();
                 dbHelper.update(position, getyear, getmonth, getday, price, memo);
                 Intent intent_after = new Intent(MoneyEdit.this, MoneyTab.class);
+                intent_after.putExtra("after_position", position);
                 intent_after.putExtra("after_year", getyear);
                 intent_after.putExtra("after_month", getmonth);
                 intent_after.putExtra("after_day", getday);
+                intent_after.putExtra("after_memo", memo);
+                intent_after.putExtra("after_price", price);
                 startActivity(intent_after);
                 Toast toastView = Toast.makeText(getApplicationContext(), "수정되었습니다" , Toast.LENGTH_LONG);
                 toastView.show();
+                 */
             }
         });
 
@@ -106,6 +101,7 @@ public class MoneyEdit extends AppCompatActivity {
                 intent_after.putExtra("after_year", getyear);
                 intent_after.putExtra("after_month", getmonth);
                 intent_after.putExtra("after_day", getday);
+                intent_after.putExtra("deletesign", 100);
                 startActivity(intent_after);
                 Toast toastView = Toast.makeText(getApplicationContext(), "삭제되었습니다" , Toast.LENGTH_LONG);
                 toastView.show();

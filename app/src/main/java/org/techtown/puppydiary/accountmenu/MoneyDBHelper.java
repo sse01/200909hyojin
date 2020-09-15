@@ -5,6 +5,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
+
 public class MoneyDBHelper extends SQLiteOpenHelper {
     Cursor cursor = null;
     int pos = 0;
@@ -25,52 +27,59 @@ public class MoneyDBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         // 새로운 테이블 생성
-        db.execSQL("CREATE TABLE IF NOT EXISTS mt4 (pos INTEGER, year INTEGER, month INTEGER, day INTEGER, price TEXT, memo TEXT);");
+        db.execSQL("CREATE TABLE IF NOT EXISTS mt6 (pos INTEGER, year INTEGER, month INTEGER, day INTEGER, price INTEGER, memo TEXT);");
+        //db.execSQL("CREATE TABLE IF NOT EXISTS moneydbtest (useridx INTEGER, pos INTEGER, year INTEGER, month INTEGER, day INTEGER, price INTEGER, memo TEXT, CONSTRAINT useridx_fk FOREIGN KEY(useridx) REFERENCES user(useridx));");
 
     }
 
-    public void insert(int year, int month, int day, String price, String memo) {
+    public void insert(int year, int month, int day, int price, String memo) {
         // 읽고 쓰기가 가능하게 DB 열기
         SQLiteDatabase db = getWritableDatabase();
         // DB에 입력한 값으로 행 추가
-        db.execSQL("INSERT INTO mt4(year, month, day, price, memo) VALUES(" + year + ", " + month + ", " + day + ", '" + price + "', '" + memo + "');");
-
-        cursor = db.rawQuery("SELECT * FROM mt4 WHERE year = " + year + " and month = " + month + " and day = " + day + ";", null);
+        db.execSQL("INSERT INTO mt6(year, month, day, price, memo) VALUES(" + year + ", " + month + ", " + day + ", " + price + ", '" + memo + "');");
+        //db.execSQL("UPDATE moneydbtest SET year = " + year + " and month = " + month + " and day = " + day + " and price = " + price + " and memo = '" + memo + "' WHERE useridx = " + useridx + ";");
+        cursor = db.rawQuery("SELECT * FROM mt6 WHERE year = " + year + " and month = " + month + " and day = " + day + ";", null);
+        //cursor = db.rawQuery("SELECT * FROM moneydbtest WHERE useridx = " + useridx + " and year = " + year + " and month = " + month + " and day = " + day + ";", null);
         if (cursor != null && cursor.moveToFirst()) {
             do {
                 pos = cursor.getCount();
             } while (cursor.moveToNext());
         }
-        db.execSQL("UPDATE mt4 SET pos = " + pos + " WHERE year = " + year + " and month = " + month + " and day = " + day + " and price = '" + price + "' and memo = '" + memo + "';");
+        db.execSQL("UPDATE mt6 SET pos = " + pos + " WHERE year = " + year + " and month = " + month + " and day = " + day + " and price = " + price + " and memo = '" + memo + "';");
         db.close();
     }
 
-
-    public void update(int pos, int year, int month, int day, String price, String memo){
+    /*
+    public void update(int useridx, int pos, int year, int month, int day, int price, String memo){
         // 읽고 쓰기가 가능하게 DB 열기
         SQLiteDatabase db = getWritableDatabase();
-        System.out.println("IN DB : " + price + ", " + memo);
 
+        //db.execSQL("REPLACE INTO mt4(price, memo) SELECT price, memo FROM mt4 WHERE pos = " + pos + " and year = " + year + " and month = " + month + " and day = " + day + ";");
+        //db.execSQL("INSERT OR REPLACE INTO mt6 VALUES( " + pos + ", " + year + ", " + month + ", " + day + ", " + price + ", '" + memo + "');");
         //db.execSQL("DELETE FROM mt4 WHERE pos = " + pos + " and year = " + year + " and month = " + month + " and day = " + day + ";");
         //db.execSQL("INSERT OR REPLACE INTO mt4(pos, year, month, day, price, memo) VALUES(" + pos + ", " + year + ", " + month + ", " + day + ", '" + price + "', '" + memo + "');");
-        db.execSQL("UPDATE mt4 SET price = '" + price + "' and memo = '" + memo + "' WHERE pos = " + pos + " and year = " + year + " and month = " + month + " and day = " + day + ";");
+        db.execSQL("UPDATE mt6 SET price = " + price + " and memo = '" + memo + "' WHERE pos = " + pos + " and year = " + year + " and month = " + month + " and day = " + day + ";");
         db.close();
     }
+    */
 
     public void delete(int pos, int year, int month, int day) {
 
         SQLiteDatabase db = getWritableDatabase();
 
-        db.execSQL("DELETE FROM mt4 WHERE pos = " + pos + " and year = " + year + " and month = " + month + " and day = " + day + ";");
-        db.execSQL("UPDATE mt4 SET pos = pos-1 WHERE pos > " + pos + " and year = " + year + " and month = " + month + " and day = " + day + ";");
+        db.execSQL("DELETE FROM mt6 WHERE pos = " + pos + " and year = " + year + " and month = " + month + " and day = " + day + ";");
+        //db.execSQL("DELETE FROM moneydbtest WHERE useridx = " + useridx + " and pos = " + pos + " and year = " + year + " and month = " + month + " and day = " + day + ";");
+        db.execSQL("UPDATE mt6 SET pos = pos-1 WHERE pos > " + pos + " and year = " + year + " and month = " + month + " and day = " + day + ";");
+        //db.execSQL("UPDATE moneydbtest SET pos = pos-1 WHERE useridx = " + useridx + " and pos > " + pos + " and year = " + year + " and month = " + month + " and day = " + day + ";");
         db.close();
     }
 
     //같은 날짜에 같은 항목 있는지 체크
-    public int check(int year, int month, int day, String price, String memo) {
+    public int check(int year, int month, int day, int price, String memo) {
         SQLiteDatabase db = getReadableDatabase();
         int check = 0; //중복 item 체크, 1이면 중복
-        cursor = db.rawQuery("SELECT pos from mt4 WHERE year = " + year + " and month = " + month + " and day = " + day + " and price = '" + price + "' and memo = '" + memo + "';", null);
+        cursor = db.rawQuery("SELECT pos from mt6 WHERE year = " + year + " and month = " + month + " and day = " + day + " and price = " + price + " and memo = '" + memo + "';", null);
+        //cursor = db.rawQuery("SELECT pos from moneydbtest WHERE useridx = " + useridx + " and year = " + year + " and month = " + month + " and day = " + day + " and price = " + price + " and memo = '" + memo + "';", null);
         if (cursor != null && cursor.moveToFirst()) {
             if (cursor.getString(cursor.getColumnIndex("pos")) != null) {
                 check = 1;
@@ -83,8 +92,8 @@ public class MoneyDBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getReadableDatabase();
         String memo = "";
 
-        cursor = db.rawQuery("SELECT memo from mt4 WHERE pos = " + pos + " and year = " + year + " and month = " + month + " and day = " + day + ";", null);
-
+        cursor = db.rawQuery("SELECT memo from mt6 WHERE pos = " + pos + " and year = " + year + " and month = " + month + " and day = " + day + ";", null);
+        //cursor = db.rawQuery("SELECT memo from moneydbtest WHERE useridx = " + useridx + " and pos = " + pos + " and year = " + year + " and month = " + month + " and day = " + day + ";", null);
         if (cursor != null && cursor.moveToFirst()) {
             do {
                 memo = cursor.getString(cursor.getColumnIndex("memo"));
@@ -96,15 +105,15 @@ public class MoneyDBHelper extends SQLiteOpenHelper {
         return memo;
     }
 
-    public String price(int pos, int year, int month, int day) {
+    public int price(int pos, int year, int month, int day) {
         SQLiteDatabase db = getReadableDatabase();
-        String price = "";
+        int price = 0;
 
-        cursor = db.rawQuery("SELECT price from mt4 WHERE pos = " + pos + " and year = " + year + " and month = " + month + " and day = " + day + ";", null);
-
+        cursor = db.rawQuery("SELECT price from mt6 WHERE pos = " + pos + " and year = " + year + " and month = " + month + " and day = " + day + ";", null);
+        //cursor = db.rawQuery("SELECT price from moneydbtest WHERE useridx = " + useridx + " and pos = " + pos + " and year = " + year + " and month = " + month + " and day = " + day + ";", null);
         if (cursor != null && cursor.moveToFirst()) {
             do {
-                price = cursor.getString(cursor.getColumnIndex("price"));
+                price = cursor.getInt(cursor.getColumnIndex("price"));
             } while (cursor.moveToNext());
         }
 
@@ -114,11 +123,12 @@ public class MoneyDBHelper extends SQLiteOpenHelper {
     }
 
     public int getSum(int year, int month, int day) {
+
         SQLiteDatabase db = getReadableDatabase();
         int sum = 0;
 
-        cursor = db.rawQuery("SELECT price from mt4 WHERE year = " + year + " and month = " + month + " and day = " + day + ";", null);
-
+        cursor = db.rawQuery("SELECT price from mt6 WHERE year = " + year + " and month = " + month + " and day = " + day + ";", null);
+        //cursor = db.rawQuery("SELECT price from moneydbtest WHERE useridx = " + useridx + " and year = " + year + " and month = " + month + " and day = " + day + ";", null);
         if (cursor != null && cursor.moveToFirst()) {
             do {
                 sum += cursor.getInt(cursor.getColumnIndex("price"));
@@ -128,23 +138,75 @@ public class MoneyDBHelper extends SQLiteOpenHelper {
         return sum;
     }
 
+/*
+    public ArrayList<MoneyTab.MoneytabItem> getResult(int year, int month, int day) {
+        // 읽기가 가능하게 DB 열기
+        SQLiteDatabase db = getReadableDatabase();
+        ArrayList<MoneyTab.MoneytabItem> result = new ArrayList<MoneyTab.MoneytabItem>();
+
+        cursor = db.rawQuery("SELECT * from mt4 WHERE year = " + year + " and month = " + month + " and day = " + day + ";", null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                result.add(new MoneyTab.MoneytabItem(
+                        cursor.getString(cursor.getColumnIndex("memo")),
+                        cursor.getString(cursor.getColumnIndex("price"))));
+            } while (cursor.moveToNext());
+
+            System.out.println("RESULT:" + result);
+        }
+
+        cursor.close();
+        db.close();
+        return result;
+
+    }
+
+
+
+    public String getResultmemo(int year, int month, int day){
+        // 읽기가 가능하게 DB 열기
+        SQLiteDatabase db = getReadableDatabase();
+        String memo = null;
+        cursor = db.rawQuery("SELECT * from mt4 WHERE year = " + year + " and month = " + month + " and day = " + day + ";", null);
+
+        if(cursor != null && cursor.moveToFirst()){
+            do{
+                memo = cursor.getString(cursor.getColumnIndex("memo"));
+            } while(cursor.moveToNext());
+        }
+
+        return memo;
+    }
+
+    public String getResultprice(int year, int month, int day){
+        // 읽기가 가능하게 DB 열기
+        SQLiteDatabase db = getReadableDatabase();
+        String price = null;
+        cursor = db.rawQuery("SELECT * from mt4 WHERE year = " + year + " and month = " + month + " and day = " + day + ";", null);
+
+        if(cursor != null && cursor.moveToFirst()){
+            do{
+                price = cursor.getString(cursor.getColumnIndex("price"));
+                System.out.println("db price : " + price);
+            } while(cursor.moveToNext());
+        }
+        System.out.println("db price : " + price);
+        return price;
+    }
+
+
+*/
+
     public Cursor getResult(int year, int month, int day) {
         // 읽기가 가능하게 DB 열기
         SQLiteDatabase db = getReadableDatabase();
 
         // DB에 있는 데이터를 쉽게 처리하기 위해 Cursor를 사용
-        cursor = db.rawQuery("SELECT * from mt4 WHERE year = " + year + " and month = " + month + " and day = " + day + ";", null);
-
+        cursor = db.rawQuery("SELECT * from mt6 WHERE year = " + year + " and month = " + month + " and day = " + day + ";", null);
+        //cursor = db.rawQuery("SELECT * from moneydbtest WHERE useridx = " + useridx + " and year = " + year + " and month = " + month + " and day = " + day + ";", null);
         return cursor;
-        /*if(cursor != null && cursor.moveToFirst()){
-            do{
-                result.add(cursor.getString(1));
-            }while(cursor.moveToNext());
-        }
 
-        cursor.close();
-        db.close();
-        return result;*/
     }
 }
 

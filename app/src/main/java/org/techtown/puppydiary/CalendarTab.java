@@ -276,7 +276,7 @@ public class CalendarTab extends AppCompatActivity implements View.OnClickListen
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
 
-            final DBHelper_cal dbHelper = new DBHelper_cal(getApplicationContext(), "AA.db", null, 1);
+            final DBHelper_cal dbHelper = new DBHelper_cal(getApplicationContext(), "dbcalendar.db", null, 1);
             int state = dbHelper.getResult_state(position, month);
             DayInfo day = dayList.get(position);
             ViewHolder holder = null;

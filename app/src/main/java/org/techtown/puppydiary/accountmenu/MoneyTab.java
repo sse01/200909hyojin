@@ -55,7 +55,7 @@ public class MoneyTab extends AppCompatActivity implements AdapterView.OnItemCli
     TextView tv_total;
     EditText et_price;
     EditText et_memo;
-    String price = null;
+    int price = 0;
     String memo = null;
 
     Calendar myCalendar = Calendar.getInstance();
@@ -65,14 +65,12 @@ public class MoneyTab extends AppCompatActivity implements AdapterView.OnItemCli
     int day_money = 0;
 
     int position = 0;
-    String setpos_price = null;
-    String setpos_memo = null;
 
     MoneyDBHelper dbHelper = null;
     Cursor cursor;
     EditText[] EditTexts;
     MoneytabItem items;
-    ArrayList<MoneytabItem> itemArray;
+    ArrayList<MoneytabItem> itemArray = null;
     ListAdapter adapter;
     ListView listview;
 
@@ -137,7 +135,7 @@ public class MoneyTab extends AppCompatActivity implements AdapterView.OnItemCli
         itemArray = new ArrayList<MoneytabItem>();
         adapter = new ListAdapter(this, itemArray);
 
-        dbHelper = new MoneyDBHelper(getApplicationContext(), "mt4.db", null, 1);
+        dbHelper = new MoneyDBHelper(getApplicationContext(), "mt6.db", null, 1);
         EditTexts = new EditText[]{
                 (EditText) findViewById(R.id.edit_context),
                 (EditText) findViewById(R.id.edit_price)
@@ -146,19 +144,29 @@ public class MoneyTab extends AppCompatActivity implements AdapterView.OnItemCli
 
         // 아이템 수정, 삭제 후 해당 날짜로 돌아오기
         Intent intent_after = new Intent(getIntent());
+        int after_position = intent_after.getIntExtra("after_position", 0);
         int after_year = intent_after.getIntExtra("after_year", 0);
         int after_month = intent_after.getIntExtra("after_month", 0);
         int after_day = intent_after.getIntExtra("after_day", 0);
+        String after_memo = intent_after.getStringExtra("after_memo");
+        int after_price = intent_after.getIntExtra("after_price", 0);
+
         if(after_year != 0){
+            //edit, delete 후 화면
             year_money = after_year;
             month_money = after_month;
             day_money = after_day;
             tv_date.setText(year_money + "/" + month_money + "/" + day_money);
             itemArray.clear();
             CursorToArray();
+            adapter.setArrayList(itemArray);
+            //items = new MoneytabItem(after_memo, after_price);
+            //itemArray.add(after_position-1, items);
+            //int trash = dbHelper.getCount(year_money, month_money, day_money);
+            //itemArray.remove(trash-1);
             tv_total.setText(dbHelper.getSum(year_money, month_money, day_money) + "원");
             listview.setAdapter(adapter);
-        }else {
+        } else {
             // 기본 시작화면 : 오늘날짜 세팅
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy/M/d", Locale.KOREA);
             tv_date.setText(sdf.format(myCalendar.getTime()));
@@ -167,8 +175,9 @@ public class MoneyTab extends AppCompatActivity implements AdapterView.OnItemCli
             day_money = myCalendar.get(Calendar.DAY_OF_MONTH);
             itemArray.clear();
             CursorToArray();
-            tv_total.setText(dbHelper.getSum(year_money, month_money, day_money) + "원");
+            adapter.setArrayList(itemArray);
             listview.setAdapter(adapter);
+            tv_total.setText(dbHelper.getSum(year_money, month_money, day_money) + "원");
         }
 
 
@@ -186,6 +195,7 @@ public class MoneyTab extends AppCompatActivity implements AdapterView.OnItemCli
                 day_money = myCalendar.get(Calendar.DAY_OF_MONTH);
                 itemArray.clear();
                 CursorToArray();
+                adapter.setArrayList(itemArray);
                 tv_total.setText(dbHelper.getSum(year_money, month_money, day_money) + "원");
                 listview.setAdapter(adapter);
             }
@@ -206,7 +216,8 @@ public class MoneyTab extends AppCompatActivity implements AdapterView.OnItemCli
             @Override
             public void onClick(View view) {
                 memo = et_memo.getText().toString();
-                price = et_price.getText().toString();
+                //price = et_price.getText().toString();
+                price = Integer.parseInt(et_price.getText().toString());
 
                 //중복체크
                 switch (dbHelper.check(year_money, month_money, day_money, price, memo)){
@@ -221,7 +232,7 @@ public class MoneyTab extends AppCompatActivity implements AdapterView.OnItemCli
                         adapter.setArrayList(itemArray);
                         adapter.notifyDataSetChanged();
                         tv_total.setText(dbHelper.getSum(year_money, month_money, day_money) + "원");
-                        cursor.close();
+
                         et_memo.getText().clear();
                         et_price.getText().clear();
                         // 저장 버튼 누른 후 키보드 안보이게 하기
@@ -253,15 +264,16 @@ public class MoneyTab extends AppCompatActivity implements AdapterView.OnItemCli
     }
 
 
-    public class MoneytabItem {
+    public static class MoneytabItem {
 
         String memo;
-        String price;
+        int price;
 
-        public MoneytabItem(String memo, String price) {
+        public MoneytabItem(String memo, int price) {
             this.memo = memo;
             this.price = price;
         }
+
     }
 
 
@@ -273,16 +285,17 @@ public class MoneyTab extends AppCompatActivity implements AdapterView.OnItemCli
         if (cursor != null && cursor.moveToFirst()) {
             do {
                 items = new MoneytabItem(
-                        setpos_memo = cursor.getString(cursor.getColumnIndex("memo")),
-                        setpos_price = cursor.getString(cursor.getColumnIndex("price"))
+                        cursor.getString(cursor.getColumnIndex("memo")),
+                        cursor.getInt(cursor.getColumnIndex("price"))
                 );
                 itemArray.add(items);
-
             } while (cursor.moveToNext());
         }
 
         cursor.close();
+
     }
+
 
 
     public class ListAdapter extends BaseAdapter {
@@ -327,7 +340,7 @@ public class MoneyTab extends AppCompatActivity implements AdapterView.OnItemCli
             }
 
             viewHolder.memo.setText(itemList.get(position).memo);
-            viewHolder.price.setText(itemList.get(position).price);
+            viewHolder.price.setText(Integer.toString(itemList.get(position).price));
 
             return v;
         }

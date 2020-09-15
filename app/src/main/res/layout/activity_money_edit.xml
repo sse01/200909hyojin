@@ -6,67 +6,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/close"
-        android:layout_width="50dp"
-        android:layout_height="52dp"
-        android:background="#E5285B"
-        android:text="X"
-        android:textColor="#FFFEFE"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/money"
-        android:layout_width="49dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="44dp"
-        android:gravity="center_vertical"
-        android:text="금액"
-        android:textSize="25sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.256"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/date" />
-
-    <TextView
-        android:id="@+id/memo"
-        android:layout_width="49dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="44dp"
-        android:gravity="center_vertical"
-        android:text="메모"
-        android:textSize="25sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.256"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/money" />
-
-    <TextView
-        android:id="@+id/date"
-        android:layout_width="49dp"
-        android:layout_height="50dp"
-        android:gravity="center_vertical"
-        android:text="날짜"
-        android:textSize="25sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.256"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.286" />
-
 
     <Button
-        android:id="@+id/edit"
+        android:id="@+id/cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#E5285B"
-        android:text="수정"
+        android:text="취소"
         android:textColor="#F9F9F9"
         android:textSize="23sp"
         android:textStyle="bold"
@@ -102,24 +48,41 @@
         android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.369"
+        app:layout_constraintHorizontal_bias="0.366"
         app:layout_constraintStart_toEndOf="@+id/date"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.286" />
+        app:layout_constraintVertical_bias="0.23" />
 
-    <EditText
-        android:id="@+id/price_data"
-        android:layout_width="160dp"
+    <TextView
+        android:id="@+id/memo"
+        android:layout_width="49dp"
         android:layout_height="50dp"
-        android:layout_marginTop="44dp"
-        android:gravity="center"
-        android:textSize="22sp"
+        android:layout_marginTop="48dp"
+        android:gravity="center_vertical"
+        android:text="메모"
+        android:textSize="25sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.369"
-        app:layout_constraintStart_toEndOf="@+id/money"
-        app:layout_constraintTop_toBottomOf="@+id/date_data" />
+        app:layout_constraintHorizontal_bias="0.256"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/money" />
 
-    <EditText
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="49dp"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
+        android:text="날짜"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.256"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.23" />
+
+    <TextView
         android:id="@+id/memo_data"
         android:layout_width="160dp"
         android:layout_height="50dp"
@@ -128,10 +91,37 @@
         android:textSize="22sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.369"
+        app:layout_constraintHorizontal_bias="0.366"
         app:layout_constraintStart_toEndOf="@+id/memo"
         app:layout_constraintTop_toBottomOf="@+id/price_data"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.014" />
+
+    <TextView
+        android:id="@+id/money"
+        android:layout_width="49dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="40dp"
+        android:gravity="center_vertical"
+        android:text="금액"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.256"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/date" />
+
+    <TextView
+        android:id="@+id/price_data"
+        android:layout_width="160dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        android:inputType="number"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.366"
+        app:layout_constraintStart_toEndOf="@+id/money"
+        app:layout_constraintTop_toBottomOf="@+id/date_data" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

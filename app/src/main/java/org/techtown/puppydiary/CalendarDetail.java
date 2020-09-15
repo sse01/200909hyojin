@@ -63,7 +63,7 @@ public class CalendarDetail extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_calendar_detail);
 
-        final DBHelper_cal dbHelper = new DBHelper_cal(getApplicationContext(), "AA.db", null, 1);
+        final DBHelper_cal dbHelper = new DBHelper_cal(getApplicationContext(), "dbcalendar.db", null, 1);
         final Intent intent = new Intent(getIntent());
         final int pos = intent.getIntExtra("pos", 0);
         final int month = intent.getIntExtra("month", 0);

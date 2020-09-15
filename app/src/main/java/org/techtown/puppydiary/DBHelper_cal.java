@@ -35,7 +35,7 @@ public class DBHelper_cal extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         // 새로운 테이블 생성
         /* 이름은 EDITMEMO, position 나타내는 primary key, 메모 내용 받는 문자열 */
-        db.execSQL("CREATE TABLE IF NOT EXISTS AA (pos INTEGER, month INTEGER, text TEXT, image_byte BLOB, waterdrop INTEGER, injection INTEGER);");
+        db.execSQL("CREATE TABLE IF NOT EXISTS dbcalendar (pos INTEGER, month INTEGER, text TEXT, image_byte BLOB, waterdrop INTEGER, injection INTEGER);");
 
     }
 
@@ -44,13 +44,12 @@ public class DBHelper_cal extends SQLiteOpenHelper {
         // 읽고 쓰기가 가능하게 DB 열기
         SQLiteDatabase db = getWritableDatabase();
         // DB에 입력한 값으로 행 추가
-        db.execSQL("INSERT OR REPLACE INTO AA(pos, month, text, waterdrop, injection) VALUES(" + pos + ", " + month + ", '" + text + "', " + waterdrop + ", " + injection + ");");
-        SQLiteStatement sql = db.compileStatement("INSERT OR REPLACE INTO AA(image_byte) VALUES(?);");
+        db.execSQL("INSERT OR REPLACE INTO dbcalendar(pos, month, text, waterdrop, injection) VALUES(" + pos + ", " + month + ", '" + text + "', " + waterdrop + ", " + injection + ");");
+        SQLiteStatement sql = db.compileStatement("INSERT OR REPLACE INTO dbcalendar(image_byte) VALUES(?);");
         if (image_byte != null) {
             sql.bindBlob(1, image_byte);
             sql.executeInsert();
         }
-        System.out.println("db insert : " + image_byte);
         db.close();
     }
 
@@ -60,7 +59,7 @@ public class DBHelper_cal extends SQLiteOpenHelper {
         String result = "";
 
         // DB에 있는 데이터를 쉽게 처리하기 위해 Cursor를 사용
-        cursor = db.rawQuery("SELECT text from AA WHERE pos = " + pos + " and month = " + month + ";", null);
+        cursor = db.rawQuery("SELECT text from dbcalendar WHERE pos = " + pos + " and month = " + month + ";", null);
 
         if (cursor.getCount() > 0) {
             while (cursor.moveToNext()) {
@@ -78,7 +77,7 @@ public class DBHelper_cal extends SQLiteOpenHelper {
         int resultstate = 0;
 
         // DB에 있는 데이터를 쉽게 처리하기 위해 Cursor를 사용
-        cursor = db.rawQuery("SELECT waterdrop, injection from AA WHERE pos = " + pos + " and month = " + month + ";", null);
+        cursor = db.rawQuery("SELECT waterdrop, injection from dbcalendar WHERE pos = " + pos + " and month = " + month + ";", null);
 
         if (cursor.getCount() > 0) {
             while (cursor.moveToNext()) {
@@ -97,7 +96,7 @@ public class DBHelper_cal extends SQLiteOpenHelper {
         byte[] resultimg = null;
 
         // DB에 있는 데이터를 쉽게 처리하기 위해 Cursor를 사용
-        cursor2 = db.rawQuery("SELECT image_byte from AA WHERE pos = " + pos + " and month = " + month + ";", null);
+        cursor2 = db.rawQuery("SELECT image_byte from dbcalendar WHERE pos = " + pos + " and month = " + month + ";", null);
 
         cursor2.moveToFirst();
         if (cursor.getCount() > 0) {
